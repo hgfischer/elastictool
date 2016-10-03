@@ -1,0 +1,14 @@
+bootstrap.mlockall: true
+cluster.name: elastictools
+discovery.zen.minimum_master_nodes: 1
+discovery.zen.no_master_block: all
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: ["172.20.192.11", "172.20.192.12", "172.20.192.13"]
+index.merge.scheduler.max_thread_count: 1
+index.number_of_replicas: 1
+index.number_of_shards: 4
+index.refresh_interval: 1s
+index.translog.flush_threshold_size: 100mb
+network.host: _eth1_
+node.name: ${HOSTNAME}
+threadpool.bulk.queue_size: 100

@@ -1,3 +1,7 @@
-elasticload
 *.swp
 *.bak
+*.log
+
+elasticload
+
+.vagrant/machines

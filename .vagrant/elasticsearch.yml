@@ -9,6 +9,6 @@ index.number_of_replicas: 1
 index.number_of_shards: 4
 index.refresh_interval: 1s
 index.translog.flush_threshold_size: 100mb
-network.host: _eth1_
+network.host: [_site_, _local_]
 node.name: ${HOSTNAME}
 threadpool.bulk.queue_size: 100

@@ -26,14 +26,15 @@ function configure_elasticsearch() {
 	sudo cp -v /tmp/defaults /etc/default/elasticsearch
 	sudo cp -v /tmp/limits.conf /etc/security/limits.d/elasticsearch.conf
 	sudo cp -v /tmp/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
-	sudo update-rc.d elasticsearch defaults 95 10
 	
 	if [ ! -e /usr/share/elasticsearch/plugins/kopf ]
 	then
 		/usr/share/elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf/v2.1.2
 	fi
 	
-	sudo service elasticsearch restart
+	sudo /bin/systemctl daemon-reload
+	sudo /bin/systemctl enable elasticsearch.service
+	sudo /bin/systemctl start elasticsearch.service
 }
 
 disable_apt_interactive_mode

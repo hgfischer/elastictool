@@ -6,6 +6,7 @@ import (
 
 	elastic "gopkg.in/olivere/elastic.v3"
 
+	"github.com/fatih/color"
 	"github.com/urfave/cli"
 )
 
@@ -13,6 +14,7 @@ var (
 	app = cli.NewApp()
 
 	hostname string
+	sniff    bool
 )
 
 func init() {
@@ -27,6 +29,11 @@ func init() {
 			Usage:       "ElasticSearch `HOST` to connect to",
 			Destination: &hostname,
 		},
+		cli.BoolFlag{
+			Name:        "sniff",
+			Usage:       "If true, sniffs all nodes on the ElasticSearch node",
+			Destination: &sniff,
+		},
 	}
 
 	app.Commands = []cli.Command{
@@ -34,8 +41,10 @@ func init() {
 			Name:  "status",
 			Usage: "get cluster status",
 			Action: func(c *cli.Context) error {
-				println(hostname)
-				es, err := elastic.NewClient(elastic.SetURL(hostname))
+				es, err := elastic.NewClient(
+					elastic.SetURL(hostname),
+					elastic.SetSniff(sniff),
+				)
 				if err != nil {
 					return err
 				}
@@ -43,7 +52,14 @@ func init() {
 				if err != nil || health == nil {
 					return err
 				}
-				println(health.Status)
+				switch health.Status {
+				case "red":
+					color.Red(health.Status)
+				case "yellow":
+					color.Yellow(health.Status)
+				case "green":
+					color.Green(health.Status)
+				}
 				return nil
 			},
 		},
